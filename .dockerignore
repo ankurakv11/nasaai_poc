@@ -1,0 +1,113 @@
+# Python cache and compiled files
+__pycache__/
+*.py[cod]
+*$py.class
+*.so
+
+# Git files
+.git/
+.gitignore
+
+# Environment files
+.env
+.env.example
+venv/
+venv38/
+ENV/
+env/
+
+# IDE files
+.vscode/
+.idea/
+*.code-workspace
+
+# OS files
+.DS_Store
+Thumbs.db
+
+# Documentation and README
+*.md
+docs/
+
+# Upload files (will be created in container)
+uploads/*
+!uploads/.gitkeep
+
+# Test files
+.pytest_cache/
+.coverage
+htmlcov/
+test_*.jpg
+test_*.png
+
+# Backup files
+*.bak
+*.backup
+*.old
+
+# Deployment files (not needed for Docker)
+.ebextensions/
+Procfile
+*.sh
+BUILD_STATUS.md
+LOCAL_DEPLOYMENT_REPORT.md
+EC2_STATUS.md
+LOCAL_SETUP_COMPLETE.md
+DOCKER_CHECK_COMMANDS.md
+infrastructure_explanation_document.pdf
+
+# Docker files (don't need Dockerfiles inside the image)
+Dockerfile*
+docker-compose*.yml
+
+# Test scripts
+test_*.py
+
+# Large model files optimization
+# REMOVED: *.pth, *.h5, *.pkl - these are REQUIRED for U2Net model to work
+# The models are essential and must be included in the Docker image
+# Exclude duplicate model zip files to save 534MB
+models.zip
+
+# Additional Python patterns
+*.pyc
+*.pyo
+.Python
+build/
+dist/
+*.egg-info/
+.eggs/
+
+# Testing
+.tox/
+.hypothesis/
+*.cover
+.cache
+nosetests.xml
+coverage.xml
+
+# Jupyter Notebook
+.ipynb_checkpoints/
+*.ipynb
+
+# Logs
+*.log
+logs/
+
+# Temporary files
+*.tmp
+*.swp
+temp/
+tmp/
+
+# CI/CD
+.github/
+.gitlab-ci.yml
+.travis.yml
+Jenkinsfile
+
+# LaTeX files (from proposal)
+*.tex
+*.pdf
+*.aux
+*.out

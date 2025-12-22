@@ -1,0 +1,55 @@
+# ==============================
+# Builder
+# ==============================
+FROM python:3.10-slim AS builder
+
+RUN apt-get update && apt-get install -y --no-install-recommends \
+    build-essential \
+    binutils \
+    && rm -rf /var/lib/apt/lists/*
+
+WORKDIR /build
+COPY requirements.txt .
+
+RUN pip install --upgrade pip && \
+    pip install --no-cache-dir --target=/install -r requirements.txt
+
+
+# ==============================
+# Runtime
+# ==============================
+FROM python:3.10-slim
+
+RUN apt-get update && apt-get install -y --no-install-recommends \
+    libglib2.0-0 \
+    libsm6 \
+    libxext6 \
+    libxrender1 \
+    libgomp1 \
+    libgl1 \
+    ca-certificates \
+    curl \
+    && rm -rf /var/lib/apt/lists/*
+
+WORKDIR /app
+
+# ✅ COPY EVERYTHING (libs + bin)
+COPY --from=builder /install /install
+
+# ✅ Make executables visible
+ENV PATH="/install/bin:$PATH" \
+    PYTHONPATH="/install" \
+    PYTHONUNBUFFERED=1 \
+    PYTHONDONTWRITEBYTECODE=1
+
+COPY app ./app
+COPY main.py .
+
+RUN mkdir -p uploads/temp uploads/processed uploads/enhanced && \
+    useradd -m appuser && chown -R appuser:appuser /app
+
+USER appuser
+
+EXPOSE 80
+
+CMD ["gunicorn", "main:app", "-k", "uvicorn.workers.UvicornWorker", "-w", "2", "--bind", "0.0.0.0:80"]

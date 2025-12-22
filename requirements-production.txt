@@ -1,0 +1,38 @@
+# Production-optimized requirements (no dev dependencies)
+# Estimated size reduction: ~200-300MB
+
+# Core FastAPI and web framework (minimal)
+fastapi==0.95.2
+uvicorn[standard]==0.22.0
+python-multipart==0.0.5
+requests==2.28.2
+
+# Data processing (essential only)
+pydantic==1.10.8
+numpy>=1.20.0,<1.25.0
+
+# Image processing (optimized versions)
+opencv-python-headless==4.6.0.66  # Headless version saves ~50MB
+Pillow==9.5.0
+
+# MediaPipe for body detection (Python 3.8 compatible)
+mediapipe>=0.9.0,<0.11.0
+
+# Deep learning (essential only, Python 3.8 compatible)
+torch==1.13.1
+torchvision==0.14.1
+
+# Configuration and utilities (minimal)
+python-dotenv==0.21.1
+aiofiles==0.8.0
+
+# Supabase client for database integration (Python 3.8 compatible)
+supabase==2.4.6
+
+# Removed from production:
+# - Development dependencies (pytest, httpx): ~50MB saved
+# - Optional packages (pandas, openpyxl): ~100MB saved
+# - scikit-image: ~80MB saved (not used in core functionality)
+# - python-json-logger: ~5MB saved
+# - tqdm: ~2MB saved
+# - watchgod, websockets, httptools: ~10MB saved (uvicorn[standard] includes these)
