@@ -1,0 +1,17 @@
+FROM python:3.10-slim
+
+WORKDIR /app
+
+RUN apt-get update && apt-get install -y --no-install-recommends \
+    libglib2.0-0 libsm6 libxext6 libxrender1 libgomp1 libgl1 ca-certificates \
+    && rm -rf /var/lib/apt/lists/*
+
+COPY worker/requirements.txt .
+RUN pip install --no-cache-dir -r requirements.txt
+
+COPY worker .
+COPY app app
+
+EXPOSE 8001
+CMD ["gunicorn", "main:app", "-k", "uvicorn.workers.UvicornWorker", "-w", "1", "--bind", "0.0.0.0:8001"]
+

@@ -1,0 +1,21 @@
+version: "3.9"
+
+services:
+  api:
+    build:
+      context: .
+      dockerfile: Dockerfile.api
+    container_name: sizing_api
+    ports:
+      - "8000:8000"
+    environment:
+      WORKER_URL: http://worker:8001
+    depends_on:
+      - worker
+
+  worker:
+    build:
+      context: .
+      dockerfile: Dockerfile.worker
+    container_name: sizing_worker
+
